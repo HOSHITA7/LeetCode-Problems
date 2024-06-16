@@ -1,0 +1,27 @@
+class Solution {
+
+    public int minPatches(int[] nums, int n) {
+
+        long a = 1;
+
+        int r = 0, i = 0;
+
+        while (a <= n) {
+
+            if (i < nums.length && nums[i] <= a) {
+
+                a += nums[i];
+
+                i++;
+            } 
+            else {
+
+                a += a;
+
+                r++;
+            }
+        }
+
+        return r;
+    }
+}
