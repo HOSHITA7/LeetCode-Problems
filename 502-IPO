@@ -1,0 +1,45 @@
+class Solution {
+
+    public static class IPO {
+
+        int capital, profit;
+
+        IPO(int capital, int profit) {
+
+            this.capital = capital;
+
+            this.profit = profit;
+        }
+    }
+
+    public int findMaximizedCapital(int k, int w, int[] profits, int[] capital) {
+
+        int n = profits.length;
+
+        List<IPO> L = new ArrayList<>();
+
+        for (int i = 0; i < n; i++)  L.add(new IPO(capital[i], profits[i]));
+    
+        Collections.sort(L, (a, b) -> a.capital - b.capital);
+
+        PriorityQueue<Integer> p = new PriorityQueue<>((x, y) -> y - x);
+
+        int i = 0;
+
+        for (int j = 0; j < k; j++) {
+           
+            while (i < n && L.get(i).capital <= w) {
+
+                p.add(L.get(i).profit);
+
+                i++;
+            }
+
+            if (p.isEmpty()) break;
+
+            w += p.poll();
+        }
+
+      return w;
+    }
+}
