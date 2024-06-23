@@ -1,0 +1,40 @@
+class Solution {
+
+    public int longestSubarray(int[] nums, int limit) {
+
+         LinkedList<Integer> l1 = new LinkedList<>();
+
+        LinkedList<Integer> l2 = new LinkedList<>();
+
+        int m = 0, L = 0;
+
+        for (int i = 0; i < nums.length; i++) {
+
+            int n = nums[i];
+
+            while (l1.size() > 0 && n < l1.getLast())  l1.removeLast();
+            
+            l1.add(n);
+
+            while (l2.size() > 0 && n > l2.getLast()) l2.removeLast();
+            
+
+            l2.add(n);
+
+            while (l2.getFirst() - l1.getFirst() > limit) {
+
+                if (nums[L] == l2.getFirst())  l2.removeFirst();
+                
+                if (nums[L] == l1.getFirst())  l1.removeFirst();
+                
+                L++;
+            }
+
+            int P = i - L + 1;
+
+            m = Math.max(m, P);
+        }
+
+        return m;
+    }
+}
