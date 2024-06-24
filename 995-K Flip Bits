@@ -1,0 +1,22 @@
+class Solution {
+
+    public int minKBitFlips(int[] nums, int k) {
+
+        int n = nums.length, F = 0, R = 0;
+
+        int[] a = new int[n];
+
+        for (int i = 0; i < n; i++) {
+
+            if (i >= k)  F ^= a[i - k];
+
+            if (F == nums[i]) {
+
+                if (i + k > n)  return -1;
+
+                a[i] = 1; F ^= 1; R++;
+            }
+        }
+       return R;
+    }
+}
