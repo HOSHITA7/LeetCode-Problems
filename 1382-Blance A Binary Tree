@@ -1,0 +1,54 @@
+/**
+ * Definition for a binary tree node.
+ * public class TreeNode {
+ *     int val;
+ *     TreeNode l;
+ *     TreeNode r;
+ *     TreeNode() {
+
+        }
+ *     TreeNode(int val) { this.val = val; }
+ *     TreeNode(int val, TreeNode l, TreeNode r) {
+ *         this.val = val;
+ *         this.l = l;
+ *         this.r = r;
+ *     }
+ * }
+ */
+class Solution {
+
+    public TreeNode balanceBST(TreeNode root) {
+
+       List<Integer> L = new ArrayList<>();
+
+        binary(root, L);
+
+        return search(L, 0, L.size() - 1);  
+    }
+
+    public void binary(TreeNode node, List<Integer> L) {
+        
+        if (node == null)   return;
+        
+        binary(node.left, L);
+
+        L.add(node.val);
+
+        binary(node.right, L);
+    }
+    
+    public TreeNode search(List<Integer> S, int s, int e) {
+       
+        if (s > e)  return null;
+        
+        int mid = s + (e - s) / 2;
+
+        TreeNode node = new TreeNode(S.get(mid));
+
+        node.left = search(S, s, mid - 1);
+
+        node.right = search(S, mid + 1, e);
+
+        return node;
+    }
+}
