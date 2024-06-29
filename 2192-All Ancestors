@@ -1,0 +1,34 @@
+class Solution {
+
+    public List<List<Integer>> getAncestors(int n, int[][] edges) {
+
+        List<List<Integer>> l = new ArrayList<>();
+
+        for (int i = 0; i < n; i++)  l.add(new ArrayList<>());
+
+        ArrayList<Integer>[] a = new ArrayList[n];
+
+        for (int i = 0; i < n; i++)   a[i] = new ArrayList<>();
+        
+        for (int[] k : edges)  a[k[0]].add(k[1]);
+
+        for (int i = 0; i < n; i++)  node(a, i, i, l, new boolean[n]);
+
+        for (int i = 0; i < n; i++) l.get(i).sort(Integer::compareTo);
+
+        return l;
+    }
+
+    public void node(ArrayList<Integer>[] a, int p, int c, List<List<Integer>> l, boolean[] b) {
+       
+        b[c] = true;
+
+        for (int k : a[c]) {
+
+            if (!b[k]) {
+
+                l.get(k).add(p);  node(a, p, k, l, b);
+            }
+        }
+    }
+}
