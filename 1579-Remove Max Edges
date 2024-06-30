@@ -1,0 +1,77 @@
+class Solution {
+
+    public int maxNumEdgesToRemove(int n, int[][] edges) {
+
+        traver a = new traver(n);
+
+        traver b = new traver(n);
+
+        
+        int p = 0;
+
+        for(int[] i : edges) {
+
+            if(i[0]==3) p+= (a.graph(i[1], i[2]) | b.graph(i[1], i[2]));
+        }
+
+        for(int[] i : edges) {
+
+            if(i[0]==2) p += b.graph(i[1], i[2]);
+        
+            else if(i[0]==1) p += a.graph(i[1], i[2]);
+        }
+
+        if(a.max() && b.max())  return edges.length - p;
+
+        return -1;
+    }
+
+    class traver {
+
+        int[] D; int[] E; int C;
+
+        traver(int n) {
+
+            C = n;
+
+            D = new int[n+1];
+
+            E = new int[n+1];
+
+            for(int i=0;i<=n;i++) {
+
+                D[i] = i;
+
+                E[i] = i;
+            }
+        }
+
+       public int remove(int x) {
+
+            if(D[x] == x)  return x;
+
+            return D[x] = remove(D[x]);
+        }
+
+       public int graph(int x, int y) {
+
+            x = remove(x); y = remove(y);
+
+            if(x==y) return 0;
+
+            if(E[x] > E[y]) {
+
+                E[x] += E[y]; D[y] = x;
+            } 
+
+            else {
+                E[y] += E[x]; D[x] = y;
+            }
+            C--;  return 1;
+        }
+        boolean max() {
+
+            return C == 1;
+        }
+    }     
+}
