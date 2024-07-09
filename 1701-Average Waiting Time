@@ -1,0 +1,22 @@
+class Solution {
+
+    public double averageWaitingTime(int[][] customers) {
+        
+        int n = customers.length;
+
+        double d = customers[0][1];
+
+        int p = customers[0][0] + customers[0][1];
+
+        for (int i = 1; i < n; i++) {
+
+            int[] a = customers[i];
+
+            int r = a[0];  int s = Math.max(r, p); int e = s + a[1];
+
+            p = e; d += e - r;
+        }
+
+        return d / n;
+    }
+}
