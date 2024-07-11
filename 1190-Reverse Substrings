@@ -1,0 +1,36 @@
+class Solution {
+
+    public String reverseParentheses(String s) {
+        
+        char[] c = s.toCharArray();
+
+        return pair(c);
+    }
+    
+    int i = 0;
+
+    public String pair(char[] s){
+
+        StringBuilder b = new StringBuilder();
+
+        while (i < s.length) {
+
+            if (s[i] == ')'){
+
+                i++; return b.reverse().toString();
+            }
+
+            else if (s[i] == '('){
+
+                i++;  String t  = pair(s); b.append(t);
+            }
+
+            else {
+
+                b.append(s[i]);  i++;
+            }
+        }
+
+        return b.toString();
+    }
+}
