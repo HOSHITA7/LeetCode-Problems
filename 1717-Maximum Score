@@ -1,0 +1,40 @@
+class Solution {
+
+    public int maximumGain(String s, int x, int y) {
+        
+        int a = 0, b = 0, l = Math.min(x, y), c = 0;
+        
+        for (int i = 0; i < s.length(); i++) {
+
+            char ch = s.charAt(i);
+
+            if (ch > 'b') {
+
+                c += Math.min(a, b) * l;
+
+                a = 0; b = 0;
+            } 
+            else if (ch == 'a') {
+
+                if (x < y && b > 0) {
+
+                    b--; c += y;
+                } 
+
+                else   a++;   
+            } 
+
+            else {
+
+                if (x > y && a > 0) {
+
+                    a--; c += x;
+                } 
+                else  b++;
+                
+            }
+        }
+        
+        c += Math.min(a, b) * l;  return c;
+    }
+}
