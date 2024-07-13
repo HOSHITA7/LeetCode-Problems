@@ -1,0 +1,52 @@
+class Solution {
+
+    public List<Integer> survivedRobotsHealths(int[] positions, int[] healths, String directions) {
+        
+        int n = positions.length;
+
+        Integer[] G = new Integer[n];
+
+        List<Integer> L = new ArrayList<>();
+
+        Stack<Integer> S = new Stack<>();
+
+        for (int i = 0; i < n; i++)  G[i] = i;
+
+        Arrays.sort(G,(lhs, rhs) -> Integer.compare(positions[lhs], positions[rhs]));
+
+        for (int k : G) {
+           
+            if (directions.charAt(k) == 'R')  S.push(k);
+            
+             else {
+
+                while (!S.isEmpty() && healths[k] > 0) {
+                    
+                    int t = S.pop();
+
+                    if (healths[t] > healths[k]) {
+
+                     healths[t] -= 1; healths[k] = 0; S.push(t);
+                    } 
+
+                    else if (healths[t] < healths[k]) {
+                        
+                        healths[k] -= 1;  healths[t] = 0;
+                    } 
+
+                    else {
+                    
+                        healths[k] = 0;  healths[t] = 0;
+                    }
+                }
+            }
+        }
+
+        for (int i = 0; i < n; i++) {
+
+            if (healths[i] > 0)  L.add(healths[i]);
+            
+        }
+        return L;
+    }
+}
