@@ -1,0 +1,88 @@
+class Solution {
+
+    public String countOfAtoms(String formula) {
+        
+        int n = formula.length();
+
+        Map<String, Integer> m = new HashMap<>();
+
+        Deque<Map<String, Integer>> d = new ArrayDeque<>();
+
+        int c = 0;
+
+        while (c < n) {
+
+            char h = formula.charAt(c);
+
+            if (h == '(') {
+
+                c++;
+
+                d.push(new HashMap<>());
+
+                continue;
+            }
+
+            if (h == ')') {
+
+                StringBuilder s = new StringBuilder(); c++;
+
+                while (c < n && Character.isDigit(formula.charAt(c))) {
+
+                    s.append(formula.charAt(c));  c++;
+                }
+
+                int p = s.length() == 0 ? 1 : Integer.parseInt(s.toString());
+
+                Map<String, Integer> e = d.pop();
+
+                Map<String, Integer> t = d.isEmpty() ? m : d.peek();
+                
+                for (Map.Entry<String, Integer> y : e.entrySet()) 
+
+                    t.put(y.getKey(), t.getOrDefault(y.getKey(), 0) + y.getValue() * p);
+                
+                continue;
+            }
+
+            StringBuilder M = new StringBuilder();
+
+            StringBuilder V = new StringBuilder();
+
+            Map<String, Integer> t = d.isEmpty() ? m : d.peek();
+
+            while (c < n && formula.charAt(c) != '(' && formula.charAt(c) != ')') {
+
+                if (Character.isAlphabetic(formula.charAt(c))) {
+
+                    if (Character.isUpperCase(formula.charAt(c)) && M.length() > 0) {
+
+                        t.put(M.toString(), t.getOrDefault(M.toString(), 0) + (V.length() == 0 ? 1 : Integer.parseInt(V.toString())));
+
+                        M = new StringBuilder(); V = new StringBuilder();
+                    }
+
+                    M.append(formula.charAt(c));
+                } 
+
+                else  V.append(formula.charAt(c));
+                
+                c++;
+            }
+
+            t.put(M.toString(), t.getOrDefault(M.toString(), 0) + (V.length() == 0 ? 1 : Integer.parseInt(V.toString())));
+        }
+
+        List<String> L = new ArrayList<>();
+
+        for (Map.Entry<String, Integer> y : m.entrySet()) 
+
+            L.add(y.getKey() + (y.getValue() == 1 ? "" : y.getValue()));
+        
+        Collections.sort(L); StringBuilder u = new StringBuilder();
+
+        for (String i : L)  u.append(i);
+
+        return u.toString();
+    }
+}
