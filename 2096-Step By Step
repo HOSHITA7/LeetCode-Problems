@@ -1,0 +1,106 @@
+/**
+ * Definition for a binary tree node.
+ * public class TreeNode {
+ *     int val;
+ *     TreeNode left;
+ *     TreeNode right;
+ *     TreeNode() {}
+ *     TreeNode(int val) { this.val = val; }
+ *     TreeNode(int val, TreeNode left, TreeNode right) {
+ *         this.val = val;
+ *         this.left = left;
+ *         this.right = right;
+ *     }
+ * }
+ */
+class Solution {
+
+    public String getDirections(TreeNode root, int startValue, int destValue) {
+        
+        Queue<TreeNode> q = new LinkedList<>();
+
+        q.offer(root);
+
+        TreeNode T = null;
+
+        while (!q.isEmpty()) {
+
+            TreeNode E = q.poll();
+
+            if (E.val == startValue) {
+
+                T = E; break;
+            }
+
+            if (E.left != null) q.offer(E.left);
+            
+            if (E.right != null) q.offer(E.right);
+        }
+
+        Map<Integer, TreeNode> nodesParents = new HashMap<>(); q.offer(root);
+
+        while (!q.isEmpty()) {
+
+            TreeNode E = q.poll();
+
+            if (E.left != null) {
+
+                nodesParents.put(E.left.val, E); q.offer(E.left);
+            }
+            if (E.right != null) {
+
+                nodesParents.put(E.right.val, E); q.offer(E.right);
+            }
+        }
+
+        Set<TreeNode> visited = new HashSet<>();  q.offer(T);
+
+        Map<TreeNode, Pair<TreeNode, String>> trackedPath = new HashMap<>();
+
+        TreeNode F = null;
+
+        while (!q.isEmpty()) {
+
+            TreeNode E = q.poll(); visited.add(E);
+
+            if (E.val == destValue) {
+
+                F = E; break;
+            }
+
+            if (nodesParents.containsKey(E.val) && !visited.contains(nodesParents.get(E.val))) {
+
+                TreeNode parent = nodesParents.get(E.val);
+
+                q.offer(parent); trackedPath.put(parent, new Pair<>(E, "U"));
+            }
+
+            if (E.left != null && !visited.contains(E.left)) {
+
+                q.offer(E.left);
+
+                trackedPath.put(E.left, new Pair<>(E, "L"));
+            }
+
+            if (E.right != null && !visited.contains(E.right)) {
+
+                q.offer(E.right);
+
+                trackedPath.put(E.right, new Pair<>(E, "R"));
+            }
+        }
+
+        List<String> L = new ArrayList<>(); TreeNode E = F;
+
+        while (E != T) {
+
+            Pair<TreeNode, String> U = trackedPath.get(E);
+
+            L.add(U.getValue());
+
+            E = U.getKey();
+        }
+
+        Collections.reverse(L); return String.join("", L);
+    }
+}
