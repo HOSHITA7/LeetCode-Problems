@@ -1,0 +1,44 @@
+/**
+ * Definition for a binary tree node.
+ * public class TreeNode {
+ *     int val;
+ *     TreeNode left;
+ *     TreeNode right;
+ *     TreeNode() {}
+ *     TreeNode(int val) { this.val = val; }
+ *     TreeNode(int val, TreeNode left, TreeNode right) {
+ *         this.val = val;
+ *         this.left = left;
+ *         this.right = right;
+ *     }
+ * }
+ */
+class Solution {
+
+    public int countPairs(TreeNode root, int distance) {
+        
+        Good(root, distance); return res;
+   }
+
+   int res = 0;
+
+  public int[] Good(TreeNode node, int distance) {
+
+    var v = new int[11];
+
+    if (node == null) return v;
+
+    if (node.left == null && node.right == null) v[1] = 1;
+
+    var left = Good(node.left, distance); var right = Good(node.right, distance);
+
+    for (var i = 1; i < distance; i++) {
+
+      for (var j = 1; j <= distance - i; j++) res += (left[i] * right[j]);
+    }
+
+    for (var i=2; i<11; i++) v[i] += left[i-1] + right[i-1];
+
+    return v;
+  }
+}
