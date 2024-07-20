@@ -1,0 +1,34 @@
+class Solution {
+
+    public int[][] restoreMatrix(int[] rowSum, int[] colSum) {
+        
+        int r = rowSum.length, c = colSum.length, cr = 0, cc = 0;
+
+        int[][] a = new int[r][c];
+
+        while (cr < r || cc < c) {
+
+            if (cr >= r) {
+
+                a[r - 1][cc] = colSum[cc]; cc++; continue;
+            } 
+
+            else if (cc >= c) {
+
+                a[cr][c - 1] = rowSum[cr]; cr++; continue;
+            }
+
+            int v = Math.min(rowSum[cr], colSum[cc]);
+
+            rowSum[cr] -= v;  colSum[cc] -= v;
+
+            a[cr][cc] = v;
+
+            if (rowSum[cr] == 0) cr++;
+        
+            if (colSum[cc] == 0)  cc++;
+        }
+
+        return a;
+    }
+}
