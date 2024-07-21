@@ -1,0 +1,76 @@
+class Solution {
+
+    public int[][] buildMatrix(int k, int[][] rowConditions, int[][] colConditions) {
+
+        List<Integer>[] a = new ArrayList[k + 1]; 
+
+        for (int i = 1 ; i < a.length; i ++)  a[i] = new ArrayList();
+        
+        for (int [] b : rowConditions) a[b[0]].add(b[1]); 
+        
+        List<Integer>[] c = new ArrayList[k + 1]; 
+
+        for (int i = 1 ; i < c.length; i ++)  c[i] = new ArrayList();
+        
+        for(int [] d : colConditions) c[d[0]].add(d[1]); 
+
+        int[] e = new int[k + 1];
+
+        Deque<Integer> f = new LinkedList<>(); 
+
+        for (int i = 1; i < a.length; i++){ 
+
+            if (!topSort(a, i, e, f))  return new int[0][0];
+        }
+
+        int[] g = new int[k + 1]; 
+
+        for (int i = 0; i < k; i++){ 
+
+            int node = f.pollLast(); g[node] = i;
+        }
+
+        e = new int[k + 1]; f = new LinkedList();
+
+        for (int i = 1; i < c.length; i++){
+
+            if (!topSort(c, i, e, f)) return new int[0][0];
+        }
+
+        int[] h = new int[k];
+
+        int[] j = new int[k+1];
+
+        for(int i = 0; i < k; i++){
+
+            int node = f.pollLast();
+
+            h[i] = node; j[node] = i;
+        }
+
+        int[][] result = new int[k][k];
+        
+        for(int i = 1; i <= k; i++) result[g[i]][j[i]] = i;
+
+        return result;
+    }
+
+    public boolean topSort(List<Integer>[] graph, int node, int[] e, Deque<Integer> f){
+        
+        if (e[node] == 2)  return false;
+        
+        if (e[node] == 0){
+
+            e[node] = 2;
+
+            for (int child : graph[node]){
+
+                if (!topSort(graph, child, e, f))   return false; 
+            }
+
+            e[node] = 1; f.add(node);
+        }
+
+        return true;
+    }
+}
