@@ -1,0 +1,29 @@
+class Solution {
+
+    public int[] sortJumbled(int[] mapping, int[] nums) {
+        
+        Map<Integer, Integer> m = new HashMap<>();
+
+        for (int i : nums) {
+
+            if (!m.containsKey(i))  m.put(i, translateInteger(i, mapping));
+        }
+
+        Integer[] d = Arrays.stream(nums).boxed().toArray(Integer[]::new);
+
+        Arrays.sort(d, (a, b) -> Integer.compare(m.get(a), m.get(b)));
+
+        for (int i = 0; i < nums.length; i++)  nums[i] = d[i];
+
+        return nums;
+    }
+
+    public int translateInteger(int num, int[] mapping) {
+
+        char[] c = Integer.toString(num).toCharArray();
+
+        for (int i = 0; i < c.length; i++) c[i] = (char) ('0' + mapping[c[i] - '0']);
+
+        return Integer.parseInt(new String(c));
+    }  
+}
