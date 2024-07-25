@@ -1,0 +1,30 @@
+class Solution {
+
+    public int[] sortArray(int[] nums) {
+        
+        int[] a = new int[100001];
+
+        int m = Integer.MIN_VALUE, n = Integer.MAX_VALUE, x = 0;
+
+        for (int i : nums) {
+
+            x = 50000 + i; a[x]++;
+
+            if (n > x) n = x;
+
+            if (m < x) m = x;
+        }
+
+        int k = nums.length - 1, p = k + 1;
+
+        for (int i = m; i >= n; i--) {
+
+            if (a[i] == 0) continue;
+
+            int l = a[i];
+
+            while (l-- > 0) nums[k--] = i - 50000;
+        }
+        return nums;
+    }
+}
