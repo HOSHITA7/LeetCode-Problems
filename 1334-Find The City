@@ -1,0 +1,48 @@
+class Solution {
+
+    public int findTheCity(int n, int[][] edges, int distanceThreshold) {
+        
+        int[][] y = new int[n][n];
+
+        for (int i = 0; i < n; i++) {
+
+            Arrays.fill(y[i], 1000000000); y[i][i] = 0;
+        }
+
+        for (int[] p : edges) {
+
+            y[p[0]][p[1]] = p[2]; y[p[1]][p[0]] = p[2];
+        }
+
+        for (int k = 0; k < n; k++) {
+
+            for (int i = 0; i < n; i++) {
+
+                for (int j = 0; j < n; j++) y[i][j] = Math.min(y[i][j], y[i][k] + y[k][j]);
+            }
+        }
+
+        int a = -1, m = Integer.MAX_VALUE;
+
+        int[] r = new int[n];
+
+        for (int i = 0; i < n; i++) {
+
+            int c = 0;
+
+            for (int j = 0; j < n; j++) {
+
+                if (i != j && y[i][j] <= distanceThreshold) c++;
+            }
+
+            r[i] = c;
+
+            if (c <= m) {
+
+                m = c; a = i;
+            }
+        }
+
+        return a;
+    }
+}
