@@ -1,0 +1,59 @@
+class Solution {
+
+    public int numTeams(int[] rating) {
+        
+        int n = rating.length;
+
+        if (n < 3) return 0;
+
+        int x = Integer.MAX_VALUE, y = Integer.MIN_VALUE;
+
+        for (int num : rating) {
+
+            x = Math.min(x, num); y = Math.max(y, num);
+        }
+        
+        int[] L = new int[y - x + 2]; int[] R = new int[y - x + 2];
+        
+        for (int k : rating) teams(R, k - x, 1);
+        
+        int c = 0;
+
+        for (int i = 0; i < n; i++) {
+
+            teams(R, rating[i] - x, -1);
+            
+            int e = sold(L, rating[i] - x - 1), g = i - e;
+            
+            int f = sold(R, rating[i] - x - 1), h = (n - i - 1) - f;
+            
+            c += e * h + g * f;
+            
+            teams(L, rating[i] - x, 1);
+        }
+        
+        return c;
+    }
+
+    public void teams(int[] t, int p, int v) {
+
+        p++;
+
+        while (p < t.length) {
+
+            t[p] += v; p += p & (-p);
+        }
+    }
+
+    public int sold(int[] t, int p) {
+
+        int s = 0; p++;
+
+        while (p > 0) {
+
+            s += t[p]; p -= p & (-p);
+        }
+
+        return s;
+    }
+}
