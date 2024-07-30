@@ -1,0 +1,19 @@
+class Solution {
+
+    public int minimumDeletions(String s) {
+        
+        int n = s.length(); int[] a = new int[n + 1]; int c = 0;
+
+        for (int i = 1; i <= n; i++) {
+
+            if (s.charAt(i - 1) == 'b') {
+
+                a[i] = a[i - 1]; c++;
+            }
+
+            else  a[i] = Math.min(a[i - 1] + 1, c);
+        }
+
+        return a[n];
+    }
+}
