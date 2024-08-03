@@ -1,0 +1,13 @@
+class Solution {
+
+    public boolean canBeEqual(int[] target, int[] arr) {
+        
+        int[] a = new int[1001]; int[] b = new int[1001];
+
+        for (int v : target) a[v]++;
+        
+        for (int v : arr)  b[v]++;
+        
+        return Arrays.equals(a, b);
+    }
+}
