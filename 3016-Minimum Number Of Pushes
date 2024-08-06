@@ -1,0 +1,26 @@
+class Solution {
+
+    public int minimumPushes(String word) {
+     
+        int[] a = new int[26];
+
+        for (char c : word.toCharArray()) a[c - 'a']++;
+        
+        Integer[] s = new Integer[26];
+
+        for (int i = 0; i < 26; i++) s[i] = a[i];
+        
+        Arrays.sort(s, Collections.reverseOrder());
+        
+        int t = 0;
+
+        for (int i = 0; i < 26; i++) {
+
+            if (s[i] == 0) break;
+
+            t += (i / 8 + 1) * s[i];
+        }
+        
+        return t;
+    }
+}
