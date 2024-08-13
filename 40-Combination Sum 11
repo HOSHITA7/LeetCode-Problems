@@ -1,0 +1,28 @@
+class Solution {
+
+    public List<List<Integer>> combinationSum2(int[] candidates, int t) {
+        
+        List<List<Integer>> l = new ArrayList<>(); Arrays.sort(candidates);
+
+        SUM(0, candidates, t, l, new ArrayList<>()); return l;
+    }
+
+    public static void SUM(int d, int[] arr, int t, List<List<Integer>> l, List<Integer> y) {
+        
+        if (t == 0) {
+
+            l.add(new ArrayList<>(y)); return;
+        }
+
+        for (int i = d; i < arr.length; i++) {
+
+            if (i > d && arr[i] == arr[i - 1]) continue;
+
+            if (arr[i] > t) break;
+
+            y.add(arr[i]);
+
+            SUM(i + 1, arr, t - arr[i], l, y); y.remove(y.size() - 1);
+        }
+    }
+}
