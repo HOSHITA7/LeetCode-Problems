@@ -1,0 +1,36 @@
+class Solution {
+
+    public int smallestDistancePair(int[] r, int k) {
+        
+        Arrays.sort(r); int m = 0;
+
+        int d = r[r.length - 1] - r[0];
+        
+        while (m < d) {
+
+            int e = m + (d - m) / 2;
+
+            int p = Pair(r, e);
+            
+            if (p < k)  m = e + 1;
+            
+            else d = e;
+        }
+        
+        return m;
+    }
+
+    public int Pair(int[] r, int t) {
+
+        int c = 0, left = 0;
+        
+        for (int right = 1; right < r.length; right++) {
+
+            while (r[right] - r[left] > t)  left++;
+            
+            c += right - left;
+        }
+        
+        return c;
+    }
+}
