@@ -1,0 +1,33 @@
+class Solution {
+
+    public boolean lemonadeChange(int[] bills) {
+        
+        int z = 0, y = 0;
+
+        for (int x : bills) {
+
+            if (x == 5)  z++;
+            
+            else if (x == 10) {
+
+                if (z > 0) {
+                
+                    z--; y++;
+                } 
+                else  return false;
+            } 
+            else {
+
+                if (z > 0 && y > 0) {
+
+                    z--;  y--;
+                } 
+                else if (z > 2)  z -= 3;
+                
+                else  return false;
+            }
+        }
+
+        return true;
+    }
+}
