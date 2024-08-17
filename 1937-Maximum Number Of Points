@@ -1,0 +1,33 @@
+class Solution {
+
+    public long maxPoints(int[][] points) {
+        
+        int row = points.length, c = points[0].length; long[] p = new long[c];
+        
+        for (int i = 0; i < c; i++) p[i] = points[0][i];
+        
+        for (int r = 1; r < row; r++) {
+
+            long[] f = new long[c]; long[] g = new long[c]; long[] h = new long[c];
+            
+            f[0] = p[0];
+
+            for (int i = 1; i < c; i++) f[i] = Math.max(f[i-1], p[i] + i);
+            
+            g[c-1] = p[c-1] - (c-1);
+
+            for (int i = c - 2; i >= 0; i--) g[i] = Math.max(g[i+1], p[i] - i);
+            
+            for (int i = 0; i < c; i++) h[i] = Math.max(f[i] - i, g[i] + i) + points[r][i];
+            
+            
+            p = h;
+        }
+        
+        long r = Long.MIN_VALUE;
+
+        for (long k : p) r = Math.max(r, k);
+        
+        return r;
+    }
+}
