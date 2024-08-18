@@ -1,0 +1,27 @@
+class Solution {
+
+    public int nthUglyNumber(int n) {
+        
+        int[] p = {2, 3, 5};  int[] d = {0, 0, 0}; 
+
+        List<Integer> l = new ArrayList<>(); 
+
+        l.add(1);
+
+        for (int i = 1; i < n; ++i) {
+     
+            int[] h = { l.get(d[0]) * p[0], l.get(d[1]) * p[1], l.get(d[2]) * p[2] };
+
+            int v = Math.min(h[0], Math.min(h[1], h[2]));  
+
+            l.add(v);  
+
+            for (int j = 0; j < 3; ++j) {
+
+                if (h[j] == v) d[j]++;
+            }
+        }
+
+        return l.get(n - 1);
+    }
+}
