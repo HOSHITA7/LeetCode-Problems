@@ -1,0 +1,33 @@
+class Solution {
+
+    public int strangePrinter(String s) {
+        
+        int n = s.length(); char[] C = s.toCharArray(); int[][] D = new int[n][n];
+
+        for(int[] a : D) Arrays.fill(a, -1);
+
+        return print(0, n - 1, C, D);
+    }
+    public int print(int i, int j, char[] C, int[][] D) {
+
+        if (i > j)  return 0;
+
+        if(D[i][j] != -1) return D[i][j];
+        
+        int f = C[i];
+        
+        int w = 1 + print(i + 1, j, C, D);
+
+        for (int k = i + 1; k <= j; k++) {
+            
+            if (C[k] == f) {   
+                         
+                int b = print(i, k - 1, C, D) + print(k + 1, j, C, D);
+
+                w = Math.min(w, b);
+            }
+        }
+
+        return D[i][j] = w;
+    }
+}
