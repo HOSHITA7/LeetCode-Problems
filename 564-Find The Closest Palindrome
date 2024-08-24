@@ -1,0 +1,53 @@
+class Solution {
+
+    public String nearestPalindromic(String n) {
+        
+        long b = Long.parseLong(n);
+
+        if (b <= 10) return String.valueOf(b - 1);
+
+        if (b == 11) return "9";
+
+        int g = n.length();
+
+        long h = Long.parseLong(n.substring(0, (g + 1) / 2));
+        
+        long[] p = new long[5];
+
+        p[0] = close(h - 1, g % 2 == 0); p[1] = close(h, g % 2 == 0);
+
+        p[2] = close(h + 1, g % 2 == 0);  p[3] = (long)Math.pow(10, g - 1) - 1;
+
+        p[4] = (long)Math.pow(10, g) + 1;
+
+        long r = 0, e = Long.MAX_VALUE;
+
+        for (long k : p) {
+
+            if (k == b) continue;
+
+            long c = Math.abs(k - b);
+
+            if (c < e || (c == e && k < r)) {
+
+                e = c; r = k;
+            }
+        }
+
+        return String.valueOf(r);
+    }
+
+    public long close(long h, boolean j) {
+
+        long a = h;
+
+        if (!j) h /= 10;
+
+        while (h > 0) {
+
+            a = a * 10 + h % 10;  h /= 10;
+        }
+        
+        return a; 
+    }
+}
