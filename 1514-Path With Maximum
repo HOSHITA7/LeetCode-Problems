@@ -1,0 +1,33 @@
+class Solution {
+
+    public double maxProbability(int n, int[][] edges, double[] succProb, int start_node, int end_node) {
+        
+        double[] d = new double[n];
+
+        d[start_node] = 1.0;
+
+        for (int i = 0; i < n - 1; i++) {
+
+            boolean b = false;
+
+            for (int j = 0; j < edges.length; j++) {
+
+                int u = edges[j][0], v = edges[j][1];
+
+                double e = succProb[j];
+
+                if (d[u] * e > d[v]) {
+
+                    d[v] = d[u] * e; b = true;
+                }
+                if (d[v] * e > d[u]) {
+
+                    d[u] = d[v] * e; b = true;
+                }
+            }
+            if (!b) break;
+        }
+
+        return d[end_node];
+    }
+}
