@@ -16,7 +16,6 @@
 class Solution {
 
     private int s = 0;
-
     public TreeNode bstToGst(TreeNode root) {
         
         if (root != null) {
